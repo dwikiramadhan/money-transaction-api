@@ -1,0 +1,221 @@
+basePath: /
+definitions:
+  entity.BaseResponse:
+    properties:
+      message: {}
+      result: {}
+      status:
+        type: string
+    type: object
+  entity.LoginReq:
+    properties:
+      phone_number:
+        type: string
+      pin:
+        type: string
+    required:
+    - phone_number
+    - pin
+    type: object
+  entity.SignUpReq:
+    properties:
+      address:
+        type: string
+      first_name:
+        type: string
+      last_name:
+        type: string
+      phone_number:
+        type: string
+      pin:
+        type: string
+    type: object
+  entity.TopupReq:
+    properties:
+      amount:
+        type: integer
+    required:
+    - amount
+    type: object
+  entity.TransferReq:
+    properties:
+      amount:
+        type: integer
+      remarks:
+        type: string
+      target_user:
+        type: string
+    required:
+    - amount
+    - target_user
+    type: object
+info:
+  contact:
+    email: your@mail.com
+    name: API Support
+  description: This is an auto-generated API Docs.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Test 2 REST API
+  version: "1.0"
+paths:
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: Auth user and return access and refresh token.
+      parameters:
+      - description: form User Login
+        in: body
+        name: Payload
+        required: true
+        schema:
+          $ref: '#/definitions/entity.LoginReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            type: string
+      summary: auth user and return access and refresh token
+      tags:
+      - Authentications
+  /pay:
+    post:
+      consumes:
+      - application/json
+      description: Create a new payment.
+      parameters:
+      - description: form Register
+        in: body
+        name: Payload
+        required: true
+        schema:
+          $ref: '#/definitions/entity.TopupReq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/entity.BaseResponse'
+        "400":
+          description: Bad Request
+          schema:
+            items:
+              $ref: '#/definitions/entity.BaseResponse'
+            type: array
+        "404":
+          description: Not Found
+          schema:
+            items:
+              $ref: '#/definitions/entity.BaseResponse'
+            type: array
+      security:
+      - ApiKeyAuth: []
+      summary: create a new payment
+      tags:
+      - Transaction
+  /register:
+    post:
+      consumes:
+      - application/json
+      description: Create a new user.
+      parameters:
+      - description: form Register
+        in: body
+        name: Payload
+        required: true
+        schema:
+          $ref: '#/definitions/entity.SignUpReq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/entity.BaseResponse'
+      summary: create a new user
+      tags:
+      - Authentications
+  /topup:
+    post:
+      consumes:
+      - application/json
+      description: Create a new topup.
+      parameters:
+      - description: form Register
+        in: body
+        name: Payload
+        required: true
+        schema:
+          $ref: '#/definitions/entity.TopupReq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/entity.BaseResponse'
+        "400":
+          description: Bad Request
+          schema:
+            items:
+              $ref: '#/definitions/entity.BaseResponse'
+            type: array
+        "404":
+          description: Not Found
+          schema:
+            items:
+              $ref: '#/definitions/entity.BaseResponse'
+            type: array
+      security:
+      - ApiKeyAuth: []
+      summary: create a new topup
+      tags:
+      - Transaction
+  /transfer:
+    post:
+      consumes:
+      - application/json
+      description: Create a new transfer.
+      parameters:
+      - description: form Register
+        in: body
+        name: Payload
+        required: true
+        schema:
+          $ref: '#/definitions/entity.TransferReq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/entity.BaseResponse'
+        "400":
+          description: Bad Request
+          schema:
+            items:
+              $ref: '#/definitions/entity.BaseResponse'
+            type: array
+        "404":
+          description: Not Found
+          schema:
+            items:
+              $ref: '#/definitions/entity.BaseResponse'
+            type: array
+      security:
+      - ApiKeyAuth: []
+      summary: create a new transfer
+      tags:
+      - Transaction
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
